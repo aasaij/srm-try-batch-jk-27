@@ -1,0 +1,362 @@
+CREATE TABLE table_name (
+    column1 datatype [constraint],
+    column2 datatype [constraint],
+    column3 datatype [constraint],
+    ...
+);
+
+SQL> CREATE TABLE student (
+  2  rollno INTEGER,
+  3  sname  VARCHAR2(30),
+  4  cgpa NUMBER(4,2),
+  5  gender CHAR(1)
+  6  );
+
+Table created.
+
+SQL> DESC student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                             NUMBER(38)
+ SNAME                                              VARCHAR2(30)
+ CGPA                                               NUMBER(4,2)
+ GENDER                                             CHAR(1)
+
+INSERT INTO <table_name> [(<column1>, <column2>,...)] VALUES (<value1>,<value2>,....);
+INSERT INTO <table_name> [(<column1>, <column2>,...)] VALUES (<value1>,<value2>,....)
+
+
+SQL> INSERT INTO student VALUES (22, 'Aarush',10,'M');
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (12, 'Ghanashyam',10,'M');
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (&rollno, '&studentName',&cgpa,'&gender');
+Enter value for rollno: 26
+Enter value for studentname: Devan
+Enter value for cgpa: 10
+Enter value for gender: M
+old   1: INSERT INTO student VALUES (&rollno, '&studentName',&cgpa,'&gender')
+new   1: INSERT INTO student VALUES (26, 'Devan',10,'M')
+
+1 row created.
+
+SQL> /
+Enter value for rollno: 397
+Enter value for studentname: Vishnu
+Enter value for cgpa: 10
+Enter value for gender: F
+old   1: INSERT INTO student VALUES (&rollno, '&studentName',&cgpa,'&gender')
+new   1: INSERT INTO student VALUES (397, 'Vishnu',10,'F')
+
+1 row created.
+
+SQL> /
+Enter value for rollno: 460
+Enter value for studentname: Harini
+Enter value for cgpa: 10
+Enter value for gender: F
+old   1: INSERT INTO student VALUES (&rollno, '&studentName',&cgpa,'&gender')
+new   1: INSERT INTO student VALUES (460, 'Harini',10,'F')
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (NULL, 'Krithika',NULL, NULL);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES ('Krithika');
+INSERT INTO student VALUES ('Krithika')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> INSERT INTO student(sname) VALUES ('Ishwarya');
+
+1 row created.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+        26 Devan                                  10 M
+       397 Vishnu                                 10 F
+       460 Harini                                 10 F
+           Krithika
+           Ishwarya
+
+7 rows selected.
+
+SQL> SELECT sname, cgpa FROM student;
+
+SNAME                                CGPA
+------------------------------ ----------
+Aarush                                 10
+Ghanashyam                             10
+Devan                                  10
+Vishnu                                 10
+Harini                                 10
+Krithika
+Ishwarya
+
+7 rows selected.
+
+SQL> INSERT INTO student VALUES (22, 'Aarush',10,'M');
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (12, 'Ghanashyam',10,'M');
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (NULL, 'Krithika',NULL, NULL);
+
+1 row created.
+
+SELECT [DISTINCT] *|<column1>,<column2>,.... FROM <table_name>|<query>
+	[WHERE <condition>]
+	[GROUP BY <column1>,<column2>,..]
+	[HAVING <condition>]
+	[ORDER BY <column1> [ASC|DESC], <column2> [ASC|DESC] ...]
+	[FETCH FIRST n ROWS ONLY]
+
+
+Relational operators
+	>
+	>=
+	<
+	<=
+	=
+	!= or <>
+Logical
+	AND
+	OR
+	NOT
+SPECIAL
+	LIKE
+	IS
+	BETWEEN
+	IN
+
+LIKE
+	Wildcard characters
+	_ (underscore) -> only one character at a time
+	% -> None or more characters
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+        26 Devan                                  10 M
+       397 Vishnu                                 10 F
+       460 Harini                                 10 F
+           Krithika
+           Ishwarya
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+           Krithika
+
+10 rows selected.
+
+SQL> SELECT DISTINCT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+       397 Vishnu                                 10 F
+        26 Devan                                  10 M
+       460 Harini                                 10 F
+           Krithika
+           Ishwarya
+
+7 rows selected.
+
+SQL> SELECT * FROM student
+  2  WHERE gender = 'm';
+
+no rows selected
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT * FROM student
+  2* WHERE lower(gender) = 'm'
+SQL> /
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+        26 Devan                                  10 M
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT * FROM student
+  2* WHERE lower(gender) = 'f' AND cgpa >= 9
+SQL> /
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+       397 Vishnu                                 10 F
+       460 Harini                                 10 F
+
+SQL> SELECT * FROM student WHERE NOT gender = 'M';
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+       397 Vishnu                                 10 F
+       460 Harini                                 10 F
+
+SQL> SELECT * FROM student WHERE gender ='M' OR cgpa >= 9;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+        26 Devan                                  10 M
+       397 Vishnu                                 10 F
+       460 Harini                                 10 F
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+
+7 rows selected.
+
+SQL> SELECT * FROM student WHERE cgpa IS NULL;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+           Krithika
+           Ishwarya
+           Krithika
+
+SQL> SELECT DISTINCT * FROM student WHERE cgpa IS NULL;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+           Krithika
+           Ishwarya
+
+SQL> SELECT DISTINCT * FROM student WHERE cgpa IS NOT NULL;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+       397 Vishnu                                 10 F
+        26 Devan                                  10 M
+       460 Harini                                 10 F
+
+SQL> SELECT * FROM student WHERE SNAME = 'Aarush' OR SNAME = 'Vishnu' OR
+  2  sname = 'Devan';
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        26 Devan                                  10 M
+       397 Vishnu                                 10 F
+        22 Aarush                                 10 M
+
+SQL> SELECT * FROM student WHERE sname IN ('Aarush', 'Devan','Vishnu');
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        26 Devan                                  10 M
+       397 Vishnu                                 10 F
+        22 Aarush                                 10 M
+
+SQL> SELECT * FROM student WHERE sname NOT IN ('Aarush', 'Devan','Vishnu');
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        12 Ghanashyam                             10 M
+       460 Harini                                 10 F
+           Krithika
+           Ishwarya
+        12 Ghanashyam                             10 M
+           Krithika
+
+6 rows selected.
+
+SQL> SELECT * FROM student WHERE cgpa >= 5 AND cgpa <= 7;
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE cgpa BETWEEN 5 AND 7;
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE cgpa NOT BETWEEN 5 AND 7;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+        26 Devan                                  10 M
+       397 Vishnu                                 10 F
+       460 Harini                                 10 F
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+
+7 rows selected.
+
+SQL> SELECT * FROM student WHERE sname LIKE 'A%';
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        22 Aarush                                 10 M
+
+SQL> SELECT * FROM student WHERE sname LIKE '%a';
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+           Krithika
+           Ishwarya
+           Krithika
+
+SQL> SELECT * FROM student WHERE sname LIKE '%a%';
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+        26 Devan                                  10 M
+       460 Harini                                 10 F
+           Krithika
+           Ishwarya
+        22 Aarush                                 10 M
+        12 Ghanashyam                             10 M
+           Krithika
+
+9 rows selected.
+
+SQL> SELECT * FROM student WHERE sname LIKE '%a_';
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        12 Ghanashyam                             10 M
+        26 Devan                                  10 M
+        12 Ghanashyam                             10 M
+
+SQL> SELECT * FROM student WHERE sname LIKE '_a%';
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+       460 Harini                                 10 F
+        22 Aarush                                 10 M
+
+SQL>
