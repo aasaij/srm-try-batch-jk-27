@@ -1,0 +1,1150 @@
+AGGREGATE FUNCTIONS
+	SUM()
+	AVG()
+	COUNT()
+	MAX()
+	MIN()
+
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+
+
+SQL> EDIT
+Wrote file afiedt.buf
+
+  1  INSERT ALL
+  2  INTO student VALUES (11, 'Kishore', 10, 'M')
+  3  INTO student VALUES (21,'Nithish', 10, 'M')
+  4  INTO student VALUES (33, 'Iswarya', 10, 'F')
+  5  INTO student VALUES (44, 'Krithika', 10, 'F')
+  6  INTO student VALUES (55, 'Anupama', 7, 'F')
+  7  INTO student VALUES (66, 'Lohar', 6, 'F')
+  8*  SELECT * FROM DUAL
+SQL> /
+
+6 rows created.
+
+SQL> INSERT INTO student VALUES (77, 'Anand', 6, 'M');
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (88, 'Ananthi', 5, 'F');
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+SQL> SELECT COUNT(*) FROM student;
+
+  COUNT(*)
+----------
+         9
+
+SQL> SELECT COUNT(*) FROM student WHERE gender = 'F';
+
+  COUNT(*)
+----------
+         5
+
+
+SQL> SELECT MAX(cgpa) FROM student;
+
+ MAX(CGPA)
+----------
+        10
+
+SQL> SELECT MIN(cgpa) FROM student;
+
+ MIN(CGPA)
+----------
+         5
+
+SQL> SELECT SUM(cgpa) FROM student;
+
+ SUM(CGPA)
+----------
+        74
+
+SQL> SELECT AVG(cgpa) FROM student;
+
+ AVG(CGPA)
+----------
+8.22222222
+
+SQL> SELECT COUNT(*) FROM student GROUP BY gender;
+
+  COUNT(*)
+----------
+         4
+         5
+
+SQL> SELECT gender, COUNT(*) FROM student GROUP BY gender;
+
+G   COUNT(*)
+- ----------
+M          4
+F          5
+
+SQL> SELECT gender, COUNT(*) FROM student GROUP BY gender HAVING COUNT(*) >= 5;
+
+G   COUNT(*)
+- ----------
+F          5
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+SQL> SELECT * FROM student ORDER BY sname;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+        55 Anupama                                 7 F
+        33 Iswarya                                10 F
+        11 Kishore                                10 M
+        44 Krithika                               10 F
+        66 Lohar                                   6 F
+        21 Nithish                                10 M
+
+9 rows selected.
+
+SQL> SELECT * FROM student ORDER BY sname ASC;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+        55 Anupama                                 7 F
+        33 Iswarya                                10 F
+        11 Kishore                                10 M
+        44 Krithika                               10 F
+        66 Lohar                                   6 F
+        21 Nithish                                10 M
+
+9 rows selected.
+
+SQL> SELECT * FROM student ORDER BY sname DESC;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        21 Nithish                                10 M
+        66 Lohar                                   6 F
+        44 Krithika                               10 F
+        11 Kishore                                10 M
+        33 Iswarya                                10 F
+        55 Anupama                                 7 F
+        88 Ananthi                                 5 F
+        77 Anand                                   6 M
+        22 Aarush                                 10 M
+
+9 rows selected.
+
+SQL> SELECT * FROM student ORDER BY sname DESC, cgpa;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        21 Nithish                                10 M
+        66 Lohar                                   6 F
+        44 Krithika                               10 F
+        11 Kishore                                10 M
+        33 Iswarya                                10 F
+        55 Anupama                                 7 F
+        88 Ananthi                                 5 F
+        77 Anand                                   6 M
+        22 Aarush                                 10 M
+
+9 rows selected.
+
+SQL> SELECT * FROM student ORDER BY sname DESC, cgpa FETCH FIRST 3 ROWS ONLY;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        21 Nithish                                10 M
+        66 Lohar                                   6 F
+        44 Krithika                               10 F
+
+SQL> SELECT * FROM student ORDER BY cgpa DESC;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+SQL> SELECT * FROM student ORDER BY cgpa DESC, sname;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        33 Iswarya                                10 F
+        11 Kishore                                10 M
+        44 Krithika                               10 F
+        21 Nithish                                10 M
+        55 Anupama                                 7 F
+        77 Anand                                   6 M
+        66 Lohar                                   6 F
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+RANK()
+
+RANK() OVER (
+    [PARTITION BY partition_column]
+    ORDER BY sort_column [ASC | DESC]
+)
+
+
+SQL> SELECT sname, cgpa, RANK() OVER (ORDER BY cgpa DESC) FROM student;
+
+SNAME                                CGPA RANK()OVER(ORDERBYCGPADESC)
+------------------------------ ---------- ---------------------------
+Aarush                                 10                           1
+Kishore                                10                           1
+Nithish                                10                           1
+Iswarya                                10                           1
+Krithika                               10                           1
+Anupama                                 7                           6
+Lohar                                   6                           7
+Anand                                   6                           7
+Ananthi                                 5                           9
+
+9 rows selected.
+
+DENSE_RANK()
+
+DENSE_RANK() OVER (
+    [PARTITION BY partition_column]
+    ORDER BY sort_column [ASC | DESC]
+)
+
+
+SQL> SELECT sname, cgpa, DENSE_RANK() OVER (ORDER BY cgpa DESC) FROM student;
+
+SNAME                                CGPA DENSE_RANK()OVER(ORDERBYCGPADESC)
+------------------------------ ---------- ---------------------------------
+Aarush                                 10                                 1
+Kishore                                10                                 1
+Nithish                                10                                 1
+Iswarya                                10                                 1
+Krithika                               10                                 1
+Anupama                                 7                                 2
+Lohar                                   6                                 3
+Anand                                   6                                 3
+Ananthi                                 5                                 4
+
+9 rows selected.
+
+SQL> SELECT sname, cgpa, DENSE_RANK() OVER (ORDER BY cgpa DESC) AS rank FROM student;
+
+SNAME                                CGPA       RANK
+------------------------------ ---------- ----------
+Aarush                                 10          1
+Kishore                                10          1
+Nithish                                10          1
+Iswarya                                10          1
+Krithika                               10          1
+Anupama                                 7          2
+Lohar                                   6          3
+Anand                                   6          3
+Ananthi                                 5          4
+
+9 rows selected.
+
+SQL> SELECT sname AS "Student Name", cgpa, DENSE_RANK() OVER (ORDER BY cgpa DESC) AS rank FROM student;
+
+Student Name                         CGPA       RANK
+------------------------------ ---------- ----------
+Aarush                                 10          1
+Kishore                                10          1
+Nithish                                10          1
+Iswarya                                10          1
+Krithika                               10          1
+Anupama                                 7          2
+Lohar                                   6          3
+Anand                                   6          3
+Ananthi                                 5          4
+
+9 rows selected.
+
+SQL> SELECT sname AS "Student Name", cgpa, DENSE_RANK() OVER (ORDER BY cgpa DESC) AS rank FROM student WHERE rank <=3;
+SELECT sname AS "Student Name", cgpa, DENSE_RANK() OVER (ORDER BY cgpa DESC) AS rank FROM student WHERE rank <=3
+                                                                                                        *
+ERROR at line 1:
+ORA-00904: "RANK": invalid identifier
+
+
+SQL> EDIT
+Wrote file afiedt.buf
+
+  1  SELECT * FROM (SELECT sname AS "Student Name",cgpa,
+  2  DENSE_RANK() OVER (ORDER BY cgpa DESC) AS rank
+  3  FROM student)
+  4* WHERE rank <= 3
+SQL> /
+
+Student Name                         CGPA       RANK
+------------------------------ ---------- ----------
+Aarush                                 10          1
+Kishore                                10          1
+Nithish                                10          1
+Iswarya                                10          1
+Krithika                               10          1
+Anupama                                 7          2
+Lohar                                   6          3
+Anand                                   6          3
+
+8 rows selected.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT * FROM (SELECT sname AS "Student Name",cgpa,
+  2  DENSE_RANK() OVER (PARTITION BY gender ORDER BY cgpa DESC) AS rank
+  3  FROM student)
+  4* WHERE rank <= 3
+SQL> /
+
+Student Name                         CGPA       RANK
+------------------------------ ---------- ----------
+Iswarya                                10          1
+Krithika                               10          1
+Anupama                                 7          2
+Lohar                                   6          3
+Aarush                                 10          1
+Kishore                                10          1
+Nithish                                10          1
+Anand                                   6          2
+
+8 rows selected.
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT * FROM (SELECT sname AS "Student Name",cgpa,
+  2  DENSE_RANK() OVER (PARTITION BY gender ORDER BY cgpa) AS rank
+  3  FROM student)
+  4* WHERE rank = 2
+SQL> /
+
+Student Name                         CGPA       RANK
+------------------------------ ---------- ----------
+Lohar                                   6          2
+Aarush                                 10          2
+Kishore                                10          2
+Nithish                                10          2
+
+SQL> edit
+Wrote file afiedt.buf
+
+  1  SELECT * FROM (SELECT sname AS "Student Name",cgpa,
+  2  DENSE_RANK() OVER (PARTITION BY gender ORDER BY cgpa) AS rank
+  3* FROM student)
+SQL> /
+
+Student Name                         CGPA       RANK
+------------------------------ ---------- ----------
+Ananthi                                 5          1
+Lohar                                   6          2
+Anupama                                 7          3
+Iswarya                                10          4
+Krithika                               10          4
+Anand                                   6          1
+Kishore                                10          2
+Aarush                                 10          2
+Nithish                                10          2
+
+9 rows selected.
+
+SQL> SHOW AUTOCOMMIT;
+autocommit OFF
+SQL> DELETE FROM student;
+
+9 rows deleted.
+
+SQL> SELECT * FROM student;
+
+no rows selected
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+COMMAND TO TAKE BACKUP
+
+SQL> CREATE TABLE studentbackup AS SELECT * FROM student;
+
+Table created.
+
+SQL> SELECT * FROM studentbackup;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+SQL> TRUNCATE TABLE student;
+
+Table truncated.
+
+SQL> SELECT * FROM student;
+
+no rows selected
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM student;
+
+no rows selected
+
+SQL> SELECT * FROM studentbackup;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+COMMAND TO RESTORE
+
+SQL> INSERT INTO student SELECT * FROM studentbackup;
+
+9 rows created.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+9 rows selected.
+
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+[WHERE condition];
+
+SQL> UPDATE student SET
+  2  sname = UPPER(sname);
+
+9 rows updated.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        33 ISWARYA                                10 F
+        44 KRITHIKA                               10 F
+        55 ANUPAMA                                 7 F
+        66 LOHAR                                   6 F
+        77 ANAND                                   6 M
+        88 ANANTHI                                 5 F
+
+9 rows selected.
+
+SQL> UPDATE student SET
+  2  sname = INITCAP(sname)
+  3  WHERE sname LIKE '%A';
+
+3 rows updated.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 LOHAR                                   6 F
+        77 ANAND                                   6 M
+        88 ANANTHI                                 5 F
+
+9 rows selected.
+
+SQL> UPDATE student SET sname = 'Prem' WHERE sname = 'ANAND';
+
+1 row updated.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 LOHAR                                   6 F
+        77 Prem                                    6 M
+        88 ANANTHI                                 5 F
+
+9 rows selected.
+
+SQL> UPDATE student SET cgpa = NULL WHERE UPPER(sname) = 'ISWARYA';
+
+1 row updated.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        33 Iswarya                                   F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 LOHAR                                   6 F
+        77 Prem                                    6 M
+        88 ANANTHI                                 5 F
+
+9 rows selected.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> DELETE FROM student WHERE gender = 'F';
+
+5 rows deleted.
+
+SQL> UPDATE student SET sname = UPPER(sname);
+
+4 rows updated.
+
+SQL> INSERT INTO student SELECT * FROM studentbackup;
+
+9 rows created.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        77 PREM                                    6 M
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+13 rows selected.
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        33 Iswarya                                   F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 LOHAR                                   6 F
+        77 Prem                                    6 M
+        88 ANANTHI                                 5 F
+
+9 rows selected.
+
+SQL> SAVEPOINT OLD;
+
+Savepoint created.
+
+SQL> DELETE FROM student WHERE gender = 'F';
+
+5 rows deleted.
+
+SQL> SAVEPOINT FEMALE;
+
+Savepoint created.
+
+SQL> UPDATE student SET sname = UPPER(sname);
+
+4 rows updated.
+
+SQL> SAVEPOINT UPDATEQUERY;
+
+Savepoint created.
+
+SQL> INSERT INTO student SELECT * FROM studentbackup;
+
+9 rows created.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        77 PREM                                    6 M
+        22 Aarush                                 10 M
+        11 Kishore                                10 M
+        21 Nithish                                10 M
+        33 Iswarya                                10 F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 Lohar                                   6 F
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        77 Anand                                   6 M
+        88 Ananthi                                 5 F
+
+13 rows selected.
+
+SQL> ROLLBACK TO UPDATEQUERY;
+
+Rollback complete.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        77 PREM                                    6 M
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        33 Iswarya                                   F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 LOHAR                                   6 F
+        77 Prem                                    6 M
+        88 ANANTHI                                 5 F
+
+9 rows selected.
+
+SQL> CREATE USER prem IDENTIFIED BY 123456;
+CREATE USER prem IDENTIFIED BY 123456
+            *
+ERROR at line 1:
+ORA-65096: invalid common user or role name
+
+SQL> ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
+
+Session altered.
+
+SQL> CREATE USER prem IDENTIFIED BY 123456;
+
+User created.
+
+SQL> GRANT CONNECT TO prem;
+
+Grant succeeded.
+
+SQL> GRANT RESOURCE TO prem;
+
+Grant succeeded.
+
+SQL> GRANT SELECT ON student TO prem;
+
+Grant succeeded.
+
+SQL> GRANT ALL ON student TO prem;
+
+Grant succeeded.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G
+---------- ------------------------------ ---------- -
+        22 AARUSH                                 10 M
+        11 KISHORE                                10 M
+        21 NITHISH                                10 M
+        33 Iswarya                                   F
+        44 Krithika                               10 F
+        55 Anupama                                 7 F
+        66 LOHAR                                   6 F
+        77 Prem                                    6 M
+        88 ANANTHI                                 5 F
+
+9 rows selected.
+
+SQL> SELECT * FROM student;
+
+no rows selected
+
+SQL> REVOKE ALL ON student FROM prem;
+
+Revoke succeeded.
+
+SQL> REVOKE RESOURCE,CONNECT FROM prem;
+
+Revoke succeeded.
+
+SQL> DROP USER prem;
+
+User dropped.
+
+SQL> INSERT INTO student SELECT * FROM studentbackup;
+
+9 rows created.
+
+
+ALTER TABLE [schema_name.]table_name
+  [ ADD (column_definition, ...) ]
+  [ MODIFY (column_modification, ...) ]
+  [ DROP COLUMN column_name [CASCADE CONSTRAINTS] ]
+  [ DROP (column_name, ...) ]
+  [ RENAME COLUMN old_name TO new_name ]
+  [ RENAME TO new_table_name ]
+  [ SET UNUSED (column_name, ...) ]
+  [ DROP UNUSED COLUMNS ]
+  [ ADD CONSTRAINT constraint_name constraint_definition ]
+  [ DROP CONSTRAINT constraint_name ]
+  [ ENABLE | DISABLE CONSTRAINT constraint_name ]
+  [ MOVE [TABLESPACE tablespace_name] ];
+
+
+SQL> ALTER TABLE student ADD (phone INTEGER, address VARCHAR2(100),
+  2  email VARCHAR2(100));
+
+Table altered.
+
+SQL> DESC student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                             NUMBER(38)
+ SNAME                                              VARCHAR2(30)
+ CGPA                                               NUMBER(4,2)
+ GENDER                                             CHAR(1)
+ PHONE                                              NUMBER(38)
+ ADDRESS                                            VARCHAR2(100)
+ EMAIL                                              VARCHAR2(100)
+
+SQL> UPDATE student SET phone = 108 WHERE sname = 'PREM';
+
+0 rows updated.
+
+SQL> UPDATE student SET phone = 108 WHERE sname = 'Prem';
+
+0 rows updated.
+
+SQL> UPDATE student SET phone = 108 WHERE sname = 'prem';
+
+0 rows updated.
+
+SQL> UPDATE student SET phone = 108 WHERE sname = 'Lohar';
+
+1 row updated.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME                                CGPA G      PHONE
+---------- ------------------------------ ---------- - ----------
+ADDRESS
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+        22 Aarush                                 10 M
+
+
+
+        11 Kishore                                10 M
+
+
+
+    ROLLNO SNAME                                CGPA G      PHONE
+---------- ------------------------------ ---------- - ----------
+ADDRESS
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+
+        21 Nithish                                10 M
+
+
+
+        33 Iswarya                                10 F
+
+
+    ROLLNO SNAME                                CGPA G      PHONE
+---------- ------------------------------ ---------- - ----------
+ADDRESS
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+
+
+        44 Krithika                               10 F
+
+
+
+        55 Anupama                                 7 F
+
+    ROLLNO SNAME                                CGPA G      PHONE
+---------- ------------------------------ ---------- - ----------
+ADDRESS
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+
+
+
+        66 Lohar                                   6 F        108
+
+
+
+
+    ROLLNO SNAME                                CGPA G      PHONE
+---------- ------------------------------ ---------- - ----------
+ADDRESS
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+        77 Anand                                   6 M
+
+
+
+        88 Ananthi                                 5 F
+
+
+
+    ROLLNO SNAME                                CGPA G      PHONE
+---------- ------------------------------ ---------- - ----------
+ADDRESS
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+
+
+9 rows selected.
+
+SQL> ALTER TABLE student DROP COLUMN phone;
+
+Table altered.
+
+SQL> DESC student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                             NUMBER(38)
+ SNAME                                              VARCHAR2(30)
+ CGPA                                               NUMBER(4,2)
+ GENDER                                             CHAR(1)
+ ADDRESS                                            VARCHAR2(100)
+ EMAIL                                              VARCHAR2(100)
+
+SQL> ALTER TABLE student DROP (address, email);
+
+Table altered.
+
+SQL> DESC student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                             NUMBER(38)
+ SNAME                                              VARCHAR2(30)
+ CGPA                                               NUMBER(4,2)
+ GENDER                                             CHAR(1)
+
+SQL> ALTER TABLE student MODIFY (sname VARCHAR2(10));
+
+Table altered.
+
+SQL> ALTER TABLE student MODIFY (sname INTEGER);
+ALTER TABLE student MODIFY (sname INTEGER)
+                            *
+ERROR at line 1:
+ORA-01439: column to be modified must be empty to change datatype
+
+
+SQL> ALTER TABLE student ADD (doj DATE DEFAULT SYSDATE);
+
+Table altered.
+
+SQL> DESC student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                             NUMBER(38)
+ SNAME                                              VARCHAR2(10)
+ CGPA                                               NUMBER(4,2)
+ GENDER                                             CHAR(1)
+ DOJ                                                DATE
+
+SQL> INSERT INTO student VALUES (99, 'Aranyan', 17, 'M','10-Oct-2027');
+
+1 row created.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME            CGPA G DOJ
+---------- ---------- ---------- - ---------
+        99 Aranyan            17 M 10-OCT-27
+        22 Aarush             10 M 06-JUN-26
+        11 Kishore            10 M 06-JUN-26
+        21 Nithish            10 M 06-JUN-26
+        33 Iswarya            10 F 06-JUN-26
+        44 Krithika           10 F 06-JUN-26
+        55 Anupama             7 F 06-JUN-26
+        66 Lohar               6 F 06-JUN-26
+        77 Anand               6 M 06-JUN-26
+        88 Ananthi             5 F 06-JUN-26
+
+10 rows selected.
+
+SQL> INSERT INTO student VALUES (11, 'Mugunthan', 19, 'M');
+INSERT INTO student VALUES (11, 'Mugunthan', 19, 'M')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> INSERT INTO student(rollno, sname, cgpa,gender) VALUES (11, 'Mugunthan', 19, 'M');
+
+1 row created.
+
+SQL> SELECT * FROM student;
+
+    ROLLNO SNAME            CGPA G DOJ
+---------- ---------- ---------- - ---------
+        99 Aranyan            17 M 10-OCT-27
+        11 Mugunthan          19 M 06-JUN-26
+        22 Aarush             10 M 06-JUN-26
+        11 Kishore            10 M 06-JUN-26
+        21 Nithish            10 M 06-JUN-26
+        33 Iswarya            10 F 06-JUN-26
+        44 Krithika           10 F 06-JUN-26
+        55 Anupama             7 F 06-JUN-26
+        66 Lohar               6 F 06-JUN-26
+        77 Anand               6 M 06-JUN-26
+        88 Ananthi             5 F 06-JUN-26
+
+11 rows selected.
+
+SQL> INSERT INTO student VALUES (99, 'Aranyan', 17, 'M','10-Oct-2027');
+
+1 row created.
+
+SQL> INSERT INTO student VALUES (NULL, 'Aranyan', 17, 'M','10-Oct-2027');
+
+1 row created.
+
+SQL> DROP TABLE studentbackup;
+
+Table dropped.
+
+SQL> CREATE TABLE studentbackup AS SELECT * FROM student;
+
+Table created.
+
+SQL> DROP TABLE student;
+
+Table dropped.
+
+CONSTRAINTS
+NOT NULL
+UNIQUE
+PRIMARY KEY
+REFERENCES
+CHECK
+DEFAULT
+
+SQL> CREATE TABLE student (
+  2  rollno INTEGER NOT NULL,
+  3  sname VARCHAR2(20),
+  4  cgpa NUMBER(4,2),
+  5  gender CHAR(1));
+
+Table created.
+
+SQL> INSERT INTO student VALUES (NULL, 'Aranyan', 17, 'M');
+INSERT INTO student VALUES (NULL, 'Aranyan', 17, 'M')
+                            *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."STUDENT"."ROLLNO")
+
+
+SQL> DESC user_constraints;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ OWNER                                              VARCHAR2(128)
+ CONSTRAINT_NAME                           NOT NULL VARCHAR2(128)
+ CONSTRAINT_TYPE                                    VARCHAR2(1)
+ TABLE_NAME                                NOT NULL VARCHAR2(128)
+ SEARCH_CONDITION                                   LONG
+ SEARCH_CONDITION_VC                                VARCHAR2(4000)
+ R_OWNER                                            VARCHAR2(128)
+ R_CONSTRAINT_NAME                                  VARCHAR2(128)
+ DELETE_RULE                                        VARCHAR2(9)
+ STATUS                                             VARCHAR2(8)
+ DEFERRABLE                                         VARCHAR2(14)
+ DEFERRED                                           VARCHAR2(9)
+ VALIDATED                                          VARCHAR2(13)
+ GENERATED                                          VARCHAR2(14)
+ BAD                                                VARCHAR2(3)
+ RELY                                               VARCHAR2(4)
+ LAST_CHANGE                                        DATE
+ INDEX_OWNER                                        VARCHAR2(128)
+ INDEX_NAME                                         VARCHAR2(128)
+ INVALID                                            VARCHAR2(7)
+ VIEW_RELATED                                       VARCHAR2(14)
+ ORIGIN_CON_ID                                      NUMBER
+
+SQL> SELECT constraint_name FROM user_constraints WHERE table_name = 'STUDENT';
+
+CONSTRAINT_NAME
+--------------------------------------------------------------------------------
+SYS_C0010652
+
+SQL> ALTER TABLE DROP CONSTRAINT SYS_C0010652;
+ALTER TABLE DROP CONSTRAINT SYS_C0010652
+            *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> ALTER TABLE student DROP CONSTRAINT SYS_C0010652;
+
+Table altered.
+
+SQL> INSERT INTO student VALUES (NULL, 'Aranyan', 17, 'M');
+
+1 row created.
+
+SQL> DROP TABLE student;
+
+Table dropped.
+
+SQL> CREATE TABLE student (
+  2  rollno INTEGER CONSTRAINT nn_rollno NOT NULL,
+  3  sname VARCHAR2(20),
+  4  cgpa NUMBER(4,2),
+  5  gender CHAR(1));
+
+Table created.
+
+SQL> INSERT INTO student VALUES (NULL, 'Aranyan', 17, 'M');
+INSERT INTO student VALUES (NULL, 'Aranyan', 17, 'M')
+                            *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."STUDENT"."ROLLNO")
+
+
+SQL> ALTER TABLE student DROP CONSTRAINT NN_ROLLNO;
+
+Table altered.
+
+SQL> INSERT INTO student VALUES (NULL, 'Aranyan', 17, 'M');
+
+1 row created.
+
+SQL>
